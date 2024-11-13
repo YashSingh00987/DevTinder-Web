@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState();
   const handleLogin = async () => {
     try {
       const response = await axios.post(
@@ -25,7 +26,8 @@ const Login = () => {
       dispatch(addUser(response.data));
       return navigate("/");
     } catch (err) {
-      console.error(err.message);
+      console.error(err.response.data);
+      setError(err.response.data);
     }
   };
 
@@ -58,6 +60,7 @@ const Login = () => {
               />
             </label>
           </div>
+          <p className="text-red-600">{error}</p>
           <div className="card-actions justify-center m-2">
             <button className="btn btn-primary" onClick={handleLogin}>
               Login
